@@ -4,4 +4,20 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>NewMatch</servlet-name>
+    <servlet-class>servlets.NewMatch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewMatch</servlet-name>
+    <url-pattern>/new-match</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MatchScore</servlet-name>
+    <servlet-class>servlets.MatchScore</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MatchScore</servlet-name>
+    <url-pattern>/match-score</url-pattern>
+  </servlet-mapping>
 </web-app>

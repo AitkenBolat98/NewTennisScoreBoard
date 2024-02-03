@@ -12,6 +12,7 @@
 
 
         <mapping class="module.Players"></mapping>
-        <mapping class="module.Matches"></mapping>
+        <mapping class="module.CurrentMatches"></mapping>
+        <mapping class="module.FinishedMatches"></mapping>
     </session-factory>
 </hibernate-configuration>

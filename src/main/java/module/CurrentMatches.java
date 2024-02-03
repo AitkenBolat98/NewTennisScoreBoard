@@ -4,21 +4,21 @@ package module;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
-@Entity(name = "matches")
+@Entity(name = "current_matches")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Matches {
+public class CurrentMatches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Players player1;
-    @OneToOne(fetch =  FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Players player2;
-    @OneToOne(fetch = FetchType.LAZY)
-    private Players winner;
+
 }

@@ -7,12 +7,12 @@
 </head>
 <body>
 <h1>Player Registration</h1>
-<form method="post" action="${pageContext.request.contextPath}/new-match">
+<form method="post" action="new-match">
     <label for="player1-name">Enter name of Player 1
-        <input id="player1-name" type="text"  name="player1Name" required>
+        <input id="player1-name" type="text" name="player1-name"  required>
     </label>
     <label for="player2-name">Enter name of Player 2
-        <input id="player2-name" type="text"  name="player2Name" required>
+        <input id="player2-name" type="text"  name="player2-name" required>
     </label>
     <input type="submit" value="Submit">
 </form>

@@ -3,30 +3,55 @@ package service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import module.Matches;
+import module.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 
 @RequiredArgsConstructor
 @Slf4j
-public class MatchServiceImpl implements MatchService{
-    private final Config config;
-    @Override
-    public void updateScore(HttpServletRequest request, HttpServletResponse response) {
-        String uuid = request.getParameter("uuid");
+public class MatchService extends Config{
+    public void createMatch(Players player1,Players player2){
+        CurrentMatches newMatch = CurrentMatches.builder()
+                .player1(player1)
+                .player2(player2)
+                .build();
+        Configuration configurationMatch = getConfiguration();
+        SessionFactory sessionFactory = configurationMatch.buildSessionFactory();
+        Session session = sessionFactory.openSession();
         try {
-            SessionFactory sessionFactory = config.getConfiguration().buildSessionFactory();
-            Session session = sessionFactory.openSession();
             session.beginTransaction();
-            Matches match = session.get(Matches.class,uuid);
-
-
+            session.save(newMatch);
+            session.getTransaction().commit();
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e.getMessage(),"match creation exception");
+        }finally {
+            session.close();
         }
     }
+    public CurrentMatches getMatchById(Integer id){
+        Configuration configuration = getConfiguration();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        CurrentMatches currentMatch = null;
+        try {
+            session.beginTransaction();
+            currentMatch  = session.get(CurrentMatches.class,id);
+            session.getTransaction().commit();
+            return currentMatch;
+        }catch (Exception e){
+            log.error(e.getMessage(),"Find match by id exception");
+        }finally {
+            session.close();
+        }
+        return currentMatch;
+    }
+
+
 }
