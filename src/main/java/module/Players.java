@@ -18,11 +18,8 @@ public class  Players {
 
     @Column()
     private String name;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,mappedBy = "")
-    private List<FinishedMatches> finishedMatches;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<CurrentMatches> currentMatches;
-
+    @OneToOne(mappedBy = "id")
+    private CurrentMatches currentMatch;
 
 }

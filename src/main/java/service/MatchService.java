@@ -39,18 +39,18 @@ public class MatchService extends Config{
         Configuration configuration = getConfiguration();
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.openSession();
-        CurrentMatches currentMatch = null;
+        CurrentMatches nullMatch = null;
         try {
             session.beginTransaction();
-            currentMatch  = session.get(CurrentMatches.class,id);
+            CurrentMatches searchedMatch  = session.get(CurrentMatches.class,id);
             session.getTransaction().commit();
-            return currentMatch;
+            return searchedMatch;
         }catch (Exception e){
             log.error(e.getMessage(),"Find match by id exception");
         }finally {
             session.close();
         }
-        return currentMatch;
+        return nullMatch;
     }
 
 

@@ -4,7 +4,6 @@ package module;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 
 @Entity(name = "current_matches")
 @Getter
@@ -16,9 +15,10 @@ public class CurrentMatches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne()
+    @JoinColumn(name = )
     private Players player1;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne()
     private Players player2;
 
 }

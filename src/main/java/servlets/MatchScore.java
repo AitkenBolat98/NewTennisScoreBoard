@@ -18,6 +18,7 @@ public class MatchScore extends HttpServlet {
     PlayerService playerService = new PlayerService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         Integer id = Integer.valueOf(request.getParameter("id"));
         CurrentMatches searchedMatch = matchService.getMatchById(id);
         String player1Name = searchedMatch.getPlayer1().getName();
