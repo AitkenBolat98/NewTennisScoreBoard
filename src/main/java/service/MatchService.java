@@ -52,6 +52,14 @@ public class MatchService extends Config{
         }
         return nullMatch;
     }
+    public void updateMatchScore(Integer id,Integer playerScored){
+        CurrentMatches match = getMatchById(id);
+        if (playerScored == 1){
+            match.
+        }else{
+
+        }
+    }
 
 
 }

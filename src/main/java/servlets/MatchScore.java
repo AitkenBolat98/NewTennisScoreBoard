@@ -31,6 +31,9 @@ public class MatchScore extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer playerScored = Integer.valueOf(request.getParameter("pscored"));
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        matchService.updateMatchScore(id,playerScored);
 
     }
 }

@@ -16,9 +16,10 @@ public class CurrentMatches {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne()
-    @JoinColumn(name = )
+    @JoinColumn(name = "player1_id")
     private Players player1;
     @OneToOne()
+    @JoinColumn(name = "player2_id")
     private Players player2;
 
 }

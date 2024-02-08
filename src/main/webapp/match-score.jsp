@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -21,19 +22,20 @@
         <th>Set 2</th>
     </tr>
     <tr>
-        <th>${player1Name}</th>
+        <th>${requestScope.player1Name}</th>
         <th>0</th>
         <th>0</th>
     </tr>
     <tr>
-        <th>${player2Name}</th>
+        <th>${requestScope.player2Name}</th>
         <th>0</th>
         <th>0</th>
     </tr>
 </table>
 <form method="post" action="match-score">
-    <input type="submit" value="Player 1 won a point">
-    <input type="submit" value="Player 2 won a point">
+    <input type="hidden" name="id" value="${param.id}">
+    <button name="pscored" value="1">${requestScope.player1Name} scored</button>
+    <button name="pscored" value="2">${requestScope.player2Name} scored</button>
 </form>
 </body>
 </html>

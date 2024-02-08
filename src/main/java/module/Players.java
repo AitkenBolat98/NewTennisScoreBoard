@@ -19,7 +19,10 @@ public class  Players {
     @Column()
     private String name;
 
-    @OneToOne(mappedBy = "id")
-    private CurrentMatches currentMatch;
+    @OneToOne(mappedBy = "player1")
+    private CurrentMatches player1Matches;
+
+    @OneToOne(mappedBy = "player2")
+    private CurrentMatches player2Matches;
 
 }
