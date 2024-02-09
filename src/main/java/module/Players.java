@@ -24,5 +24,6 @@ public class  Players {
 
     @OneToOne(mappedBy = "player2")
     private CurrentMatches player2Matches;
-
+    @OneToOne(mappedBy = "player")
+    private Score score;
 }

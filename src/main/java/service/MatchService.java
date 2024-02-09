@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class MatchService extends Config{
-    public void createMatch(Players player1,Players player2){
+    public CurrentMatches createMatch(Players player1,Players player2){
         CurrentMatches newMatch = CurrentMatches.builder()
                 .player1(player1)
                 .player2(player2)
@@ -34,6 +34,7 @@ public class MatchService extends Config{
         }finally {
             session.close();
         }
+        return newMatch;
     }
     public CurrentMatches getMatchById(Integer id){
         Configuration configuration = getConfiguration();
@@ -42,7 +43,10 @@ public class MatchService extends Config{
         CurrentMatches nullMatch = null;
         try {
             session.beginTransaction();
-            CurrentMatches searchedMatch  = session.get(CurrentMatches.class,id);
+            String hql = "SELECT m FROM current_matches m WHERE m.id = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("id",id);
+            CurrentMatches searchedMatch = (CurrentMatches) query.uniqueResult();
             session.getTransaction().commit();
             return searchedMatch;
         }catch (Exception e){

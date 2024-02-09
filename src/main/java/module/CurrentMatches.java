@@ -22,6 +22,6 @@ public class CurrentMatches {
     @JoinColumn(name = "player2_id")
     private Players player2;
 
-    @OneToOne(mappedBy = "match")
+    @OneToOne(mappedBy = "match",cascade = CascadeType.ALL,orphanRemoval = true)
     private Score score;
 }

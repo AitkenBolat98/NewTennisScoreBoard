@@ -25,7 +25,7 @@ public class ScoreService extends Config {
                 .player(player2)
                 .match(newMatch)
                 .gamesWon(0)
-                .setNumber(0)
+                .setNumber(1)
                 .build();
         Configuration configurationMatch = getConfiguration();
         SessionFactory sessionFactory = configurationMatch.buildSessionFactory();

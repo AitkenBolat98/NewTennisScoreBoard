@@ -1,13 +1,17 @@
 package module;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity(name = "score")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Score {
 
     @Id
@@ -18,7 +22,7 @@ public class Score {
     @JoinColumn(name = "player_id")
     private Players player;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "match_id")
     private CurrentMatches match;
 

@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 @Slf4j
 public class PlayerService extends Config  {
     private MatchService currentMatchService = new MatchService();
+    private ScoreService scoreService = new ScoreService(currentMatchService);
     public void createPlayers(String player1Name, String player2Name){
         Players player1 = Players.builder()
                 .name(player1Name)
@@ -35,7 +36,8 @@ public class PlayerService extends Config  {
             session.save(player1);
             session.save(player2);
             session.getTransaction().commit();
-            currentMatchService.createMatch(player1,player2);
+            CurrentMatches match = currentMatchService.createMatch(player1,player2);
+            scoreService.createScore(match,player1,player2);
         }catch (Exception e){
             log.error("exception occured",e);
             throw e;
