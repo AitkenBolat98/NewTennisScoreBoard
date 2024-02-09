@@ -22,4 +22,6 @@ public class CurrentMatches {
     @JoinColumn(name = "player2_id")
     private Players player2;
 
+    @OneToOne(mappedBy = "match")
+    private Score score;
 }

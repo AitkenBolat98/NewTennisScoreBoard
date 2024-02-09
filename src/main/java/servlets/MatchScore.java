@@ -6,6 +6,7 @@ import module.CurrentMatches;
 import module.Players;
 import service.MatchService;
 import service.PlayerService;
+import service.ScoreService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,7 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "MatchScore", value = "/match-score")
 public class MatchScore extends HttpServlet {
     MatchService matchService = new MatchService();
-    PlayerService playerService = new PlayerService();
+    ScoreService scoreService = new ScoreService(matchService);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -33,7 +34,7 @@ public class MatchScore extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer playerScored = Integer.valueOf(request.getParameter("pscored"));
         Integer id = Integer.valueOf(request.getParameter("id"));
-        matchService.updateMatchScore(id,playerScored);
+        scoreService.updateMatchScore(id,playerScored);
 
     }
 }

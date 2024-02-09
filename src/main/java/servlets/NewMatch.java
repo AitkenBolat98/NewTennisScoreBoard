@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet(name = "NewMatch", urlPatterns = "/new-match")
 public class NewMatch extends HttpServlet {
     PlayerService playerService = new PlayerService();
-    MatchService matchService = new MatchService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Hello world");
