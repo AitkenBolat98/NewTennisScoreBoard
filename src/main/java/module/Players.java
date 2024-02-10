@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "players")
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

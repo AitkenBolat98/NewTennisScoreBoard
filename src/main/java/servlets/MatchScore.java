@@ -12,6 +12,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "MatchScore", value = "/match-score")
 public class MatchScore extends HttpServlet {
@@ -20,12 +22,19 @@ public class MatchScore extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        CurrentMatches searchedMatch = matchService.getMatchById(id);
+        Integer matchId = Integer.valueOf(request.getParameter("id"));
+        CurrentMatches searchedMatch = matchService.getMatchById(matchId);
         String player1Name = searchedMatch.getPlayer1().getName();
         String player2Name = searchedMatch.getPlayer2().getName();
+        HashMap<String, List<Integer>> map = scoreService.getSetGamePoint(matchId);
         request.setAttribute("player1Name",player1Name);
         request.setAttribute("player2Name",player2Name);
+        request.setAttribute("player1sets",map.get("player1").get(0));
+        request.setAttribute("player1games",map.get("player1").get(1));
+        request.setAttribute("player1points",map.get("player1").get(2));
+        request.setAttribute("player2sets",map.get("player2").get(0));
+        request.setAttribute("player2games",map.get("player2").get(1));
+        request.setAttribute("player2points",map.get("player2").get(2));
         RequestDispatcher dispatcher = request.getRequestDispatcher("/match-score.jsp");
         dispatcher.forward(request,response);
     }
@@ -33,8 +42,18 @@ public class MatchScore extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer playerScored = Integer.valueOf(request.getParameter("pscored"));
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        scoreService.updateMatchScore(id,playerScored);
+        Integer matchId = Integer.valueOf(request.getParameter("id"));
+        CurrentMatches match = scoreService.updateMatchScore(matchId,playerScored);
+        CurrentMatches searchedMatch = matchService.getMatchById(matchId);
+        String player1Name = searchedMatch.getPlayer1().getName();
+        String player2Name = searchedMatch.getPlayer2().getName();
+        HashMap<String, List<Integer>> map = scoreService.getSetGamePoint(matchId);
+        request.setAttribute("player1Name",player1Name);
+        request.setAttribute("player2Name",player2Name);
+        request.setAttribute("player1sets",map.get("player2").get(0));
+        request.setAttribute("player1games",map.get("player2").get(1));
+        request.setAttribute("player1points",map.get("player2").get(2));
 
+        response.sendRedirect("match-score?id=" + matchId);
     }
 }

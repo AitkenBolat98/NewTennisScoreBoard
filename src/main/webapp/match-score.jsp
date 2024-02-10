@@ -18,18 +18,21 @@
 <table>
     <tr>
         <th>Players</th>
-        <th>Set 1</th>
-        <th>Set 2</th>
+        <th>Sets</th>
+        <th>Games</th>
+        <th>Points</th>
     </tr>
     <tr>
         <th>${requestScope.player1Name}</th>
-        <th>0</th>
-        <th>0</th>
+        <th>${requestScope.player1sets}</th>
+        <th>${requestScope.player1games}</th>
+        <th>${requestScope.player1points}</th>
     </tr>
     <tr>
         <th>${requestScope.player2Name}</th>
-        <th>0</th>
-        <th>0</th>
+        <th>${requestScope.player2sets}</th>
+        <th>${requestScope.player2games}</th>
+        <th>${requestScope.player2points}</th>
     </tr>
 </table>
 <form method="post" action="match-score">

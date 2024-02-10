@@ -1,14 +1,12 @@
 package module;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity(name = "score")
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +20,7 @@ public class Score {
     @JoinColumn(name = "player_id")
     private Players player;
 
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "match_id")
     private CurrentMatches match;
 
@@ -31,5 +29,7 @@ public class Score {
 
     @Column(name = "games_won")
     private Integer gamesWon;
+    @Column(name ="point_won")
+    private Integer pointWon;
 
 }
