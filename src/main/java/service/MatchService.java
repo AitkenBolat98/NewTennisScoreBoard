@@ -43,11 +43,10 @@ public class MatchService extends Config{
         CurrentMatches nullMatch = null;
         try {
             session.beginTransaction();
-            CurrentMatches searchedMatch = session.get(CurrentMatches.class,id);
-           /* String hql = "SELECT m FROM current_matches m WHERE m.id = :id";
+            String hql = "SELECT m FROM current_matches m WHERE m.id = :id";
             Query query = session.createQuery(hql);
             query.setParameter("id",id);
-            CurrentMatches searchedMatch = (CurrentMatches) query.uniqueResult();*/
+            CurrentMatches searchedMatch = (CurrentMatches) query.uniqueResult();
             session.getTransaction().commit();
             return searchedMatch;
         }catch (Exception e){

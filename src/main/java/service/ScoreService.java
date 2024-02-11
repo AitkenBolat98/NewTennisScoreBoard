@@ -51,11 +51,50 @@ public class ScoreService extends Config {
     }
     public CurrentMatches updateMatchScore(Integer id,Integer playerScored){
         CurrentMatches match = matchService.getMatchById(id);
+        Integer oldSetPlayer1 = match.getPlayer1().getScore().getSetNumber();
+        Integer oldSetPlayer2 = match.getPlayer2().getScore().getSetNumber();
+        Integer oldGamePlayer1 = match.getPlayer1().getScore().getGamesWon();
+        Integer oldGamePlayer2 = match.getPlayer2().getScore().getGamesWon();
+        Integer newSet;
+        Integer newGame;
         Score newScore;
+        Score rivalScore;
         if (playerScored == 1){
             newScore = calculateScore(match,match.getPlayer1());
+            newSet = newScore.getSetNumber();
+            newGame = newScore.getGamesWon();
+            if(newSet-oldSetPlayer1==1) {
+                rivalScore = updateSet(match,1);
+            }else if(newGame - oldGamePlayer1==1){
+                rivalScore = updateGame(match,1);
+            }else {
+                rivalScore = Score.builder()
+                        .id(match.getPlayer2().getScore().getId())
+                        .player(match.getPlayer2())
+                        .match(match)
+                        .setNumber(match.getPlayer2().getScore().getSetNumber())
+                        .pointWon(match.getPlayer2().getScore().getPointWon())
+                        .gamesWon(match.getPlayer2().getScore().getGamesWon())
+                        .build();
+            }
         }else{
             newScore = calculateScore(match,match.getPlayer2());
+            newSet = newScore.getSetNumber();
+            newGame = newScore.getGamesWon();
+            if(newSet - oldSetPlayer2 == 1){
+                rivalScore = updateSet(match,2);
+            }else if(newGame - oldGamePlayer2 ==1){
+                rivalScore = updateGame(match,2);
+            }else {
+                rivalScore = Score.builder()
+                        .id(match.getPlayer1().getScore().getId())
+                        .player(match.getPlayer1())
+                        .match(match)
+                        .setNumber(match.getPlayer1().getScore().getSetNumber())
+                        .pointWon(match.getPlayer1().getScore().getPointWon())
+                        .gamesWon(match.getPlayer1().getScore().getGamesWon())
+                        .build();
+            }
         }
 
         Configuration configurationMatch = getConfiguration();
@@ -69,6 +108,16 @@ public class ScoreService extends Config {
             log.error(e.getMessage(),"score update  exception");
         }finally {
             session.close();
+        }
+        Session sessionNew = sessionFactory.openSession();
+        try{
+            sessionNew.beginTransaction();
+            sessionNew.update(rivalScore);
+            sessionNew.getTransaction().commit();
+        }catch (Exception e){
+            log.error(e.getMessage(),"score update exception rival");
+        }finally {
+            sessionNew.close();
         }
         return match;
     }
@@ -111,8 +160,7 @@ public class ScoreService extends Config {
             game = 0;
             point = 0;
             set = winningSet(player);
-        }
-        if(point == 60){
+        }else if(point == 60){
             point = 0;
             game = winningGame(player);
         }else {
@@ -134,8 +182,57 @@ public class ScoreService extends Config {
 
         return game+1;
     }
-    private void updateSet(CurrentMatches match){
+    private Score updateGame(CurrentMatches match,Integer playerNumber){
+        Score rivalScore;
+        if(playerNumber == 1){
+            rivalScore = Score
+                    .builder()
+                    .id(match.getPlayer2().getScore().getId())
+                    .match(match)
+                    .player(match.getPlayer2())
+                    .setNumber(match.getPlayer2().getScore().getSetNumber())
+                    .gamesWon(match.getPlayer2().getScore().getGamesWon())
+                    .pointWon(0)
+                    .build();
+        }else {
+            rivalScore = Score
+                    .builder()
+                    .id(match.getPlayer1().getScore().getId())
+                    .match(match)
+                    .player(match.getPlayer1())
+                    .setNumber(match.getPlayer1().getScore().getSetNumber())
+                    .gamesWon(match.getPlayer1().getScore().getGamesWon())
+                    .pointWon(0)
+                    .build();
+        }
 
+        return rivalScore;
+    }
+    private Score updateSet(CurrentMatches match,Integer playerNumber){
+        Score rivalScore;
+        if(playerNumber == 1){
+             rivalScore = Score
+                    .builder()
+                    .id(match.getPlayer2().getScore().getId())
+                    .match(match)
+                    .player(match.getPlayer2())
+                    .setNumber(match.getPlayer2().getScore().getSetNumber())
+                    .gamesWon(0)
+                    .pointWon(0)
+                    .build();
+        }else {
+            rivalScore = Score
+                    .builder()
+                    .id(match.getPlayer1().getScore().getId())
+                    .match(match)
+                    .player(match.getPlayer1())
+                    .setNumber(match.getPlayer1().getScore().getSetNumber())
+                    .gamesWon(0)
+                    .pointWon(0)
+                    .build();
+        }
+
+        return rivalScore;
     }
     private Integer winningPoint(Players player){
         Integer point = player.getScore().getPointWon();
