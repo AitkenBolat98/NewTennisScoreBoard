@@ -35,6 +35,16 @@ public class MatchScore extends HttpServlet {
         request.setAttribute("player2sets",map.get("player2").get(0));
         request.setAttribute("player2games",map.get("player2").get(1));
         request.setAttribute("player2points",map.get("player2").get(2));
+        if(scoreService.isPlayerWonMatch(searchedMatch.getPlayer1())){
+            request.setAttribute("player1WL","W");
+            request.setAttribute("player2WL","L");
+        } else if (scoreService.isPlayerWonMatch(searchedMatch.getPlayer2())) {
+            request.setAttribute("player1WL","L");
+            request.setAttribute("player2WL","W");
+        }else {
+            request.setAttribute("player1WL","");
+            request.setAttribute("player2WL","");
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/match-score.jsp");
         dispatcher.forward(request,response);
     }
@@ -53,7 +63,19 @@ public class MatchScore extends HttpServlet {
         request.setAttribute("player1sets",map.get("player2").get(0));
         request.setAttribute("player1games",map.get("player2").get(1));
         request.setAttribute("player1points",map.get("player2").get(2));
+        if(scoreService.isPlayerWonMatch(searchedMatch.getPlayer1())){
+            request.setAttribute("player1WL","W");
+            request.setAttribute("player2WL","L");
+            response.sendRedirect("match-score?id=" + matchId);
+        } else if (scoreService.isPlayerWonMatch(searchedMatch.getPlayer2())) {
+            request.setAttribute("player1WL","L");
+            request.setAttribute("player2WL","W");
+            response.sendRedirect("match-score?id=" + matchId);
+        }else {
+            request.setAttribute("player1WL","");
+            request.setAttribute("player2WL","");
+            response.sendRedirect("match-score?id=" + matchId);
 
-        response.sendRedirect("match-score?id=" + matchId);
+        }
     }
 }

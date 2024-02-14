@@ -12,7 +12,6 @@ import org.hibernate.cfg.Configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -96,7 +95,6 @@ public class ScoreService extends Config {
                         .build();
             }
         }
-
         Configuration configurationMatch = getConfiguration();
         SessionFactory sessionFactory = configurationMatch.buildSessionFactory();
         Session session = sessionFactory.openSession();
@@ -149,10 +147,6 @@ public class ScoreService extends Config {
         return map;
     }
     private Score calculateScore(CurrentMatches match,Players player){
-        if(isPlayerWonMatch(player) == true){
-            Score winScore = null;
-            return winScore;
-        }
         Integer point = player.getScore().getPointWon();
         Integer game = player.getScore().getGamesWon();
         Integer set = player.getScore().getSetNumber();
@@ -242,10 +236,10 @@ public class ScoreService extends Config {
         Integer set = player.getScore().getSetNumber();
         return set+1;
     }
-    private boolean isPlayerWonMatch(Players player){
+    public boolean isPlayerWonMatch(Players player){
         Integer set = player.getScore().getSetNumber();
         Integer game = player.getScore().getGamesWon();
-        if(set >= 2 && game >= 6){
+        if(set >= 2){
             return true;
         }
         return false;

@@ -21,18 +21,21 @@
         <th>Sets</th>
         <th>Games</th>
         <th>Points</th>
+        <th>W/L</th>
     </tr>
     <tr>
         <th>${requestScope.player1Name}</th>
         <th>${requestScope.player1sets}</th>
         <th>${requestScope.player1games}</th>
         <th>${requestScope.player1points}</th>
+        <th>${requestScope.player1WL}</th>
     </tr>
     <tr>
         <th>${requestScope.player2Name}</th>
         <th>${requestScope.player2sets}</th>
         <th>${requestScope.player2games}</th>
         <th>${requestScope.player2points}</th>
+        <th>${requestScope.player2WL}</th>
     </tr>
 </table>
 <form method="post" action="match-score">
