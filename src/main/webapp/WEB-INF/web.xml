@@ -20,4 +20,12 @@
     <servlet-name>MatchScore</servlet-name>
     <url-pattern>/match-score</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Player</servlet-name>
+    <servlet-class>servlets.Player</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Player</servlet-name>
+    <url-pattern>/player</url-pattern>
+  </servlet-mapping>
 </web-app>

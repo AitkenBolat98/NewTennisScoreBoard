@@ -73,6 +73,7 @@ public class PlayerService extends Config  {
         }
         return nullPlayer;
     }
+
   /*  public String getPlayerByID(Integer id){
         Configuration configuration = getConfiguration();
         SessionFactory sessionFactory = configuration.buildSessionFactory();

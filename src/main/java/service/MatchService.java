@@ -57,8 +57,34 @@ public class MatchService extends Config{
         return nullMatch;
     }
 
-
-
-
+    public CurrentMatches getMatchByPlayerName(String name){
+        Configuration configuration = getConfiguration();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        CurrentMatches nullMatch = null;
+        try {
+            session.beginTransaction();
+            String hql = "SELECT\n" +
+                    "    cm\n" +
+                    "FROM\n" +
+                    "    current_matches cm\n" +
+                    "        JOIN\n" +
+                    "    players p1 ON cm.player1 = p1\n" +
+                    "        JOIN\n" +
+                    "    players p2 ON cm.player2 = p2\n" +
+                    "WHERE\n" +
+                    "        p1.name =:name OR p2.name =:name";
+            Query query = session.createQuery(hql);
+            query.setParameter("name",name);
+            CurrentMatches searchedMatch = (CurrentMatches) query.uniqueResult();
+            session.getTransaction().commit();
+            return searchedMatch;
+        }catch (Exception e){
+            log.error(e.getMessage(),"match by player exception");
+        }finally {
+            session.close();
+        }
+        return nullMatch;
+    }
 
 }
